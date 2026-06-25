@@ -1,129 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>体調管理ノート Pixel 8a 最終版 v3</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#1976d2">
-<link rel="manifest" href="manifest.json">
+<title>体調管理ノート</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png">
 <style>
-:root{--bg:#f6f8fb;--card:#fff;--text:#17202a;--muted:#637083;--blue:#1976d2;--line:#dde5ef;--bad:#d32f2f;--ok:#2e7d32;--warn:#f57c00}
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP","Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.55}.wrap{max-width:760px;margin:0 auto;padding:14px 14px 92px}.top{position:sticky;top:0;z-index:5;background:linear-gradient(180deg,#fff 70%,rgba(255,255,255,.88));border-bottom:1px solid var(--line);padding:12px 14px;margin:0 -14px 12px}h1{font-size:21px;margin:0}h2{font-size:18px;margin:0 0 10px}.sub{font-size:13px;color:var(--muted)}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0;box-shadow:0 2px 10px rgba(0,0,0,.04)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:520px){.grid{grid-template-columns:1fr}}label{display:block;font-weight:650;font-size:14px;margin-bottom:4px}.field{margin:8px 0}input,select,textarea{width:100%;border:1px solid #cfd8e3;border-radius:10px;padding:10px;font-size:16px;background:#fff}textarea{min-height:70px}.symptom{display:grid;grid-template-columns:1.15fr 1fr 42px;gap:8px;align-items:center;padding:9px 0;border-bottom:1px dashed #e5ebf2}.symptom:last-child{border-bottom:none}.symptom-name{font-weight:700}.val{font-weight:800;text-align:center;background:#edf5ff;border-radius:9px;padding:6px 0;color:#0d47a1}.range{padding:0}button{border:0;border-radius:12px;padding:11px 12px;font-weight:800;font-size:15px;background:var(--blue);color:white;cursor:pointer}.btnrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}.btnrow3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}.secondary{background:#546e7a}.danger{background:#c62828}.ghost{background:#fff;color:var(--blue);border:1px solid var(--blue)}.scorebox{display:flex;align-items:center;justify-content:space-between;gap:12px}.score{font-size:34px;font-weight:900}.badge{padding:6px 10px;border-radius:999px;font-weight:800;background:#eef5ef;color:var(--ok)}.small{font-size:12px;color:var(--muted)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px solid #e5ebf2;padding:7px;text-align:left;white-space:nowrap}th{background:#f0f5fa;position:sticky;top:62px}.scroll{overflow:auto;max-height:360px;border:1px solid #e5ebf2;border-radius:10px}canvas{width:100%;height:240px;border:1px solid #e5ebf2;border-radius:12px;background:#fff}.notice{background:#fff8e1;border-left:5px solid #f9a825;padding:10px;border-radius:10px}.footerbar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 14px}.footerbar .inner{max-width:760px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+:root{--bg:#f3f6fb;--card:#fff;--text:#1f2937;--muted:#64748b;--pri:#1976d2;--pri2:#0d47a1;--danger:#d32f2f;--line:#dbe4f0}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);font-size:16px}
+header{position:sticky;top:0;background:linear-gradient(135deg,var(--pri),var(--pri2));color:white;padding:16px 14px;z-index:10;box-shadow:0 2px 8px #0002}
+h1{font-size:20px;margin:0 0 4px}.sub{font-size:12px;opacity:.9}main{padding:12px;max-width:760px;margin:auto}
+.card{background:var(--card);border-radius:16px;padding:14px;margin:12px 0;box-shadow:0 2px 8px #0001;border:1px solid #eef2f7}
+h2{font-size:18px;margin:0 0 12px;border-left:5px solid var(--pri);padding-left:8px}
+label{display:block;margin:10px 0 4px;font-weight:600}input,select,textarea{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:10px;background:white;font-size:16px}
+textarea{min-height:72px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.symptom-row{display:grid;grid-template-columns:1fr 78px;gap:10px;align-items:center;margin:8px 0}.symptom-row input{padding:8px}
+button{border:0;border-radius:12px;padding:12px 14px;font-weight:700;font-size:15px;background:var(--pri);color:#fff;margin:5px 3px}
+button.secondary{background:#455a64}button.warn{background:#ef6c00}button.danger{background:var(--danger)}
+.scorebox{display:flex;align-items:center;justify-content:space-between;background:#e3f2fd;border-radius:14px;padding:14px;margin-top:8px}.score{font-size:28px;font-weight:800;color:var(--pri2)}
+.small{font-size:12px;color:var(--muted);line-height:1.6}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px solid var(--line);padding:8px 4px;text-align:left;vertical-align:top}th{background:#f8fafc;position:sticky;top:74px}.scroll{overflow:auto;max-height:420px}
+canvas{width:100%;height:250px;background:white;border:1px solid var(--line);border-radius:12px}.pill{display:inline-block;padding:3px 8px;border-radius:999px;background:#e8f5e9;color:#1b5e20;font-size:12px;margin-left:6px}
+@media(max-width:460px){.grid{grid-template-columns:1fr}.symptom-row{grid-template-columns:1fr 70px}button{width:100%;margin:5px 0}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="top"><h1>体調管理ノート Pixel 8a 最終版 v3</h1><div class="sub">症状9項目・血糖管理・Huawei Band 8・体調指数・CSV/JSON・過去一覧・グラフ・Google Drive手動保存対応</div></div>
-
-  <div class="card">
-    <h2>今日の記録</h2>
-    <div class="grid">
-      <div class="field"><label>日付</label><input id="date" type="date"></div>
-      <div class="field"><label>記録時間</label><input id="time" type="time"></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>症状9項目（個別入力：0〜5点）</h2>
-    <div class="small">0＝症状なし／1＝軽い／2＝少し気になる／3＝つらい／4＝かなりつらい／5＝非常につらい</div>
-    <div id="symptomList"></div>
-  </div>
-
-  <div class="card">
-    <h2>血糖管理</h2>
-    <div class="grid">
-      <div class="field"><label>朝血糖値 mg/dL</label><input id="bgMorning" type="number" inputmode="decimal"></div>
-      <div class="field"><label>昼血糖値 mg/dL</label><input id="bgNoon" type="number" inputmode="decimal"></div>
-      <div class="field"><label>夜血糖値 mg/dL</label><input id="bgNight" type="number" inputmode="decimal"></div>
-      <div class="field"><label>TIR %</label><input id="tir" type="number" inputmode="decimal"></div>
-      <div class="field"><label>平均血糖値 mg/dL</label><input id="bgAvg" type="number" inputmode="decimal"></div>
-      <div class="field"><label>低血糖回数</label><input id="hypo" type="number" inputmode="numeric"></div>
-      <div class="field"><label>HbA1c %</label><input id="hba1c" type="number" step="0.1" inputmode="decimal"></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>バイタル</h2>
-    <div class="grid">
-      <div class="field"><label>血圧 上</label><input id="bpHigh" type="number" inputmode="numeric"></div>
-      <div class="field"><label>血圧 下</label><input id="bpLow" type="number" inputmode="numeric"></div>
-      <div class="field"><label>脈拍</label><input id="pulse" type="number" inputmode="numeric"></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Huawei Band 8</h2>
-    <div class="grid">
-      <div class="field"><label>睡眠時間</label><input id="sleepHours" type="number" step="0.1" inputmode="decimal"></div>
-      <div class="field"><label>睡眠スコア</label><input id="sleepScore" type="number" inputmode="numeric"></div>
-      <div class="field"><label>安静時心拍数</label><input id="restHr" type="number" inputmode="numeric"></div>
-      <div class="field"><label>ストレス値</label><input id="stress" type="number" inputmode="numeric"></div>
-      <div class="field"><label>歩数</label><input id="steps" type="number" inputmode="numeric"></div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>生活習慣・リハビリ</h2>
-    <div class="grid">
-      <div class="field"><label>飲酒量</label><input id="alcohol" placeholder="例：ワイン400cc、サワー350cc"></div>
-      <div class="field"><label>リハビリ</label><select id="rehab"><option value="未実施">未実施</option><option value="実施">実施</option></select></div>
-    </div>
-    <div class="field"><label>メモ</label><textarea id="memo" placeholder="食事、薬、体調変化、気づいたこと"></textarea></div>
-  </div>
-
-  <div class="card">
-    <h2>今日の体調指数</h2>
-    <div class="scorebox"><div><div class="score"><span id="conditionScore">--</span><span style="font-size:16px"> /100</span></div><div id="scoreComment" class="sub">保存前に自動計算されます</div></div><div id="scoreBadge" class="badge">未計算</div></div>
-    <button class="ghost" onclick="updateScore()">体調指数を再計算</button>
-  </div>
-
-  <div class="card">
-    <h2>保存・出力・Google Drive手動保存</h2>
-    <div class="btnrow"><button onclick="saveRecord()">今日の記録を保存</button><button class="secondary" onclick="clearForm()">入力欄をクリア</button></div><br>
-    <div class="btnrow3"><button class="ghost" onclick="exportCSV()">CSV出力</button><button class="ghost" onclick="exportJSON()">JSONバックアップ</button><button class="ghost" onclick="importJSONClick()">JSON復元</button></div>
-    <input id="jsonFile" type="file" accept="application/json" style="display:none" onchange="importJSON(event)">
-    <div class="notice" style="margin-top:10px">Google Driveへ保存：CSVまたはJSON出力後、Pixel 8aの共有画面で「Google Drive」を選び、手動保存してください。</div>
-  </div>
-
-  <div class="card">
-    <h2>グラフ表示</h2>
-    <canvas id="chart" width="720" height="260"></canvas>
-    <div class="btnrow3" style="margin-top:8px"><button class="ghost" onclick="drawChart('score')">体調指数</button><button class="ghost" onclick="drawChart('symptomTotal')">症状合計</button><button class="ghost" onclick="drawChart('bgAvg')">平均血糖</button></div>
-  </div>
-
-  <div class="card">
-    <h2>過去データ一覧</h2>
-    <div class="scroll"><table id="historyTable"></table></div>
-    <br><button class="danger" onclick="deleteAll()">全データ削除</button>
-  </div>
-</div>
-<div class="footerbar"><div class="inner"><button onclick="saveRecord()">保存</button><button class="secondary" onclick="window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})">一覧へ</button></div></div>
+<header><h1>体調管理ノート <span class="pill">Pixel 8a / PWA版</span></h1><div class="sub">症状9項目・血糖管理・Huawei Band 8・体調指数・CSV/JSON・グラフ・Google Drive手動保存</div></header>
+<main>
+<section class="card"><h2>今日の記録</h2><div class="grid"><div><label>日付</label><input id="date" type="date"></div><div><label>記録時間</label><input id="time" type="time"></div></div></section>
+<section class="card"><h2>症状9項目（0=なし、5=強い）</h2><div id="symptomArea"></div></section>
+<section class="card"><h2>血糖管理</h2><div class="grid">
+<div><label>朝血糖値 mg/dL</label><input id="bgMorning" type="number" inputmode="decimal"></div>
+<div><label>昼血糖値 mg/dL</label><input id="bgNoon" type="number" inputmode="decimal"></div>
+<div><label>夜血糖値 mg/dL</label><input id="bgNight" type="number" inputmode="decimal"></div>
+<div><label>TIR %</label><input id="tir" type="number" inputmode="decimal"></div>
+<div><label>平均血糖値 mg/dL</label><input id="bgAvg" type="number" inputmode="decimal"></div>
+<div><label>低血糖回数</label><input id="hypoCount" type="number" inputmode="numeric"></div>
+<div><label>HbA1c %</label><input id="hba1c" type="number" step="0.1" inputmode="decimal"></div>
+<div><label>血糖メモ</label><input id="bgMemo" type="text"></div>
+</div></section>
+<section class="card"><h2>Huawei Band 8</h2><div class="grid">
+<div><label>睡眠時間（時間）</label><input id="sleepHours" type="number" step="0.1" inputmode="decimal"></div>
+<div><label>睡眠スコア</label><input id="sleepScore" type="number" inputmode="numeric"></div>
+<div><label>安静時心拍数</label><input id="restingHr" type="number" inputmode="numeric"></div>
+<div><label>ストレス値</label><input id="stress" type="number" inputmode="numeric"></div>
+<div><label>歩数</label><input id="steps" type="number" inputmode="numeric"></div>
+</div></section>
+<section class="card"><h2>生活習慣</h2><div class="grid"><div><label>飲酒量</label><input id="alcohol" type="text" placeholder="例：ワイン400cc、サワー350ml"></div><div><label>リハビリ</label><select id="rehab"><option value="">未入力</option><option>実施</option><option>未実施</option></select></div></div><label>メモ</label><textarea id="memo" placeholder="体調、食事、服薬、気づいたことなど"></textarea></section>
+<section class="card"><h2>体調指数</h2><div class="scorebox"><div>今日の体調指数</div><div class="score" id="healthScore">--</div></div><p class="small">医療判断ではなく、日々の変化を見るための目安です。</p><button onclick="saveRecord()">保存</button><button class="secondary" onclick="clearForm()">入力をクリア</button></section>
+<section class="card"><h2>グラフ表示</h2><div class="grid"><button onclick="drawChart('healthScore')">体調指数</button><button onclick="drawChart('bgAvg')">平均血糖</button><button onclick="drawChart('sleepHours')">睡眠時間</button><button onclick="drawChart('stress')">ストレス</button></div><canvas id="chart" width="700" height="300"></canvas></section>
+<section class="card"><h2>過去データ一覧</h2><div class="scroll"><table><thead><tr><th>日付</th><th>体調</th><th>症状合計</th><th>平均血糖</th><th>睡眠</th><th>メモ</th></tr></thead><tbody id="historyBody"></tbody></table></div></section>
+<section class="card"><h2>バックアップ・出力</h2><button onclick="exportCSV()">CSV出力</button><button onclick="exportJSON()">JSONバックアップ</button><button class="warn" onclick="importJSON()">JSON復元</button><button class="secondary" onclick="openDrive()">Google Driveを開く</button><button class="danger" onclick="deleteAll()">全データ削除</button><input id="jsonFile" type="file" accept=".json,application/json" style="display:none" onchange="handleImport(event)"><p class="small">CSV/JSONを出力後、共有メニューまたはGoogle Driveアプリから手動でDriveに保存してください。GitHubへ健康記録データはアップロードしないでください。</p></section>
+</main>
 <script>
-const symptoms=['頭の重さ','イライラ','嗅覚','胃もたれ','睡眠の質','全身倦怠感','舌のしびれ','目の違和感','のどの痛み'];
-const storageKey='health_app_pixel8a_records_v3';
-const symptomList=document.getElementById('symptomList');
-symptoms.forEach((name,i)=>{const row=document.createElement('div');row.className='symptom';row.innerHTML=`<div class="symptom-name">${name}</div><input class="range" id="symptom${i}" type="range" min="0" max="5" step="1" value="0" oninput="document.getElementById('symptomVal${i}').textContent=this.value;updateScore()"><div class="val" id="symptomVal${i}">0</div>`;symptomList.appendChild(row);});
-function today(){const d=new Date();return d.toISOString().slice(0,10)}
-function nowTime(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
-date.value=today();time.value=nowTime();
-function num(id){const v=document.getElementById(id).value;return v===''?null:Number(v)}
-function str(id){return document.getElementById(id).value||''}
-function getRecords(){try{return JSON.parse(localStorage.getItem(storageKey)||'[]')}catch(e){return []}}
-function setRecords(r){localStorage.setItem(storageKey,JSON.stringify(r))}
-function collect(){let symptomScores={};let total=0;symptoms.forEach((s,i)=>{let v=Number(document.getElementById('symptom'+i).value);symptomScores[s]=v;total+=v});let rec={id:Date.now(),date:str('date'),time:str('time'),...symptomScores,symptomTotal:total,bgMorning:num('bgMorning'),bgNoon:num('bgNoon'),bgNight:num('bgNight'),tir:num('tir'),bgAvg:num('bgAvg'),hypo:num('hypo'),hba1c:num('hba1c'),bpHigh:num('bpHigh'),bpLow:num('bpLow'),pulse:num('pulse'),sleepHours:num('sleepHours'),sleepScore:num('sleepScore'),restHr:num('restHr'),stress:num('stress'),steps:num('steps'),alcohol:str('alcohol'),rehab:str('rehab'),memo:str('memo')};rec.score=calcScore(rec);return rec}
-function calcScore(r){let score=100;score-=r.symptomTotal*2.2;if(r.bgAvg!==null){if(r.bgAvg<70||r.bgAvg>180)score-=10;else if(r.bgAvg>150)score-=4}if(r.tir!==null){if(r.tir>=70)score+=4;else if(r.tir<60)score-=6}if(r.hypo!==null&&r.hypo>0)score-=Math.min(12,r.hypo*4);if(r.sleepHours!==null){if(r.sleepHours>=7)score+=5;else if(r.sleepHours<5)score-=7}if(r.sleepScore!==null){if(r.sleepScore>=80)score+=3;else if(r.sleepScore<60)score-=5}if(r.stress!==null&&r.stress>=70)score-=5;if(r.steps!==null&&r.steps>=6000)score+=3;return Math.max(0,Math.min(100,Math.round(score)))}
-function updateScore(){const r=collect();conditionScore.textContent=r.score;scoreBadge.textContent=r.score>=80?'良好':r.score>=60?'注意':'要注意';scoreBadge.style.color=r.score>=80?'#2e7d32':r.score>=60?'#f57c00':'#d32f2f';scoreComment.textContent=`症状合計 ${r.symptomTotal}/45 点を反映しています`;return r.score}
-function saveRecord(){let r=collect();let records=getRecords();records=records.filter(x=>!(x.date===r.date&&x.time===r.time));records.push(r);records.sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));setRecords(records);updateScore();renderTable();drawChart('score');alert('保存しました');}
-function clearForm(){document.querySelectorAll('input,textarea').forEach(el=>{if(el.type==='range'){el.value=0}else if(el.type!=='date'&&el.type!=='time'&&el.type!=='file'){el.value=''}});symptoms.forEach((_,i)=>document.getElementById('symptomVal'+i).textContent='0');date.value=today();time.value=nowTime();rehab.value='未実施';updateScore();}
-function renderTable(){const records=getRecords().slice().reverse();let keys=['日付','時刻','体調指数','症状合計',...symptoms,'朝血糖','昼血糖','夜血糖','TIR','平均血糖','低血糖','HbA1c','睡眠時間','睡眠スコア','歩数','メモ'];let html='<tr>'+keys.map(k=>`<th>${k}</th>`).join('')+'</tr>';records.forEach(r=>{let vals=[r.date,r.time,r.score,r.symptomTotal,...symptoms.map(s=>r[s]??''),r.bgMorning,r.bgNoon,r.bgNight,r.tir,r.bgAvg,r.hypo,r.hba1c,r.sleepHours,r.sleepScore,r.steps,r.memo];html+='<tr>'+vals.map(v=>`<td>${v??''}</td>`).join('')+'</tr>'});historyTable.innerHTML=html}
-function download(name,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-function exportCSV(){const records=getRecords();if(!records.length){alert('保存データがありません');return}const headers=['date','time','score','symptomTotal',...symptoms,'bgMorning','bgNoon','bgNight','tir','bgAvg','hypo','hba1c','bpHigh','bpLow','pulse','sleepHours','sleepScore','restHr','stress','steps','alcohol','rehab','memo'];const csv=[headers.join(',')].concat(records.map(r=>headers.map(h=>'"'+String(r[h]??'').replaceAll('"','""')+'"').join(','))).join('\n');download('体調管理ノート_'+today()+'.csv','\ufeff'+csv,'text/csv;charset=utf-8')}
-function exportJSON(){download('体調管理ノート_backup_'+today()+'.json',JSON.stringify(getRecords(),null,2),'application/json;charset=utf-8')}
-function importJSONClick(){jsonFile.click()}
-function importJSON(e){const f=e.target.files[0];if(!f)return;const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);if(!Array.isArray(data))throw new Error();setRecords(data);renderTable();drawChart('score');alert('JSONを復元しました')}catch(err){alert('JSONファイルを読み込めませんでした')}};reader.readAsText(f)}
-function deleteAll(){if(confirm('全データを削除しますか？')){localStorage.removeItem(storageKey);renderTable();drawChart('score')}}
-function drawChart(metric){const c=document.getElementById('chart'),ctx=c.getContext('2d');ctx.clearRect(0,0,c.width,c.height);let records=getRecords().slice(-14);ctx.font='14px sans-serif';ctx.fillStyle='#637083';if(!records.length){ctx.fillText('保存データがありません',20,40);return}let vals=records.map(r=>Number(r[metric]??0));let max=Math.max(...vals,10),min=Math.min(...vals,0);if(metric==='score'){max=100;min=0}let pad=36,w=c.width-pad*2,h=c.height-pad*2;ctx.strokeStyle='#dde5ef';ctx.beginPath();ctx.moveTo(pad,pad);ctx.lineTo(pad,pad+h);ctx.lineTo(pad+w,pad+h);ctx.stroke();ctx.fillStyle='#637083';ctx.fillText(metric==='score'?'体調指数':metric==='symptomTotal'?'症状合計':'平均血糖',pad,18);ctx.strokeStyle='#1976d2';ctx.lineWidth=3;ctx.beginPath();records.forEach((r,i)=>{let x=pad+(records.length===1?w/2:i*w/(records.length-1));let y=pad+h-((vals[i]-min)/(max-min||1))*h;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();ctx.fillStyle='#1976d2';records.forEach((r,i)=>{let x=pad+(records.length===1?w/2:i*w/(records.length-1));let y=pad+h-((vals[i]-min)/(max-min||1))*h;ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();ctx.fillStyle='#17202a';ctx.fillText(String(vals[i]),x-8,y-10);ctx.fillStyle='#1976d2'});ctx.fillStyle='#637083';records.forEach((r,i)=>{let x=pad+(records.length===1?w/2:i*w/(records.length-1));ctx.fillText((r.date||'').slice(5),x-18,c.height-8)})}
-window.addEventListener('load',()=>{updateScore();renderTable();drawChart('score');if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}});
+const STORAGE_KEY="health_app_pixel8a_records_v4";
+const symptoms=["頭の重さ","イライラ","嗅覚","胃もたれ","睡眠の質","全身倦怠感","舌のしびれ","目の違和感","のどの痛み"];
+const ids=["bgMorning","bgNoon","bgNight","tir","bgAvg","hypoCount","hba1c","bgMemo","sleepHours","sleepScore","restingHr","stress","steps","alcohol","rehab","memo"];
+function init(){const d=new Date();date.value=d.toISOString().slice(0,10);time.value=String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");symptomArea.innerHTML="";symptoms.forEach((name,i)=>{const div=document.createElement("div");div.className="symptom-row";div.innerHTML=`<label for="symptom${i}">${name}</label><input id="symptom${i}" type="number" min="0" max="5" value="0" inputmode="numeric">`;symptomArea.appendChild(div)});document.querySelectorAll("input,select,textarea").forEach(el=>el.addEventListener("input",updateScore));renderHistory();updateScore();drawChart("healthScore")}
+function num(id){return Number(document.getElementById(id).value||0)}function clamp(v,min,max){return Math.min(max,Math.max(min,v))}
+function symptomTotal(){let t=0;for(let i=0;i<symptoms.length;i++)t+=clamp(Number(document.getElementById("symptom"+i).value||0),0,5);return t}
+function calcScore(){let score=100,st=symptomTotal();score-=st*2;const bgAvg=num("bgAvg"),tir=num("tir"),hypo=num("hypoCount"),sleep=num("sleepHours"),sleepScore=num("sleepScore"),stress=num("stress");if(bgAvg&&(bgAvg<70||bgAvg>180))score-=8;if(tir&&tir<70)score-=8;else if(tir>=80)score+=3;if(hypo>0)score-=hypo*5;if(sleep&&sleep<6)score-=8;else if(sleep>=7)score+=4;if(sleepScore&&sleepScore<60)score-=6;else if(sleepScore>=80)score+=3;if(stress&&stress>=70)score-=6;return clamp(Math.round(score),0,100)}
+function updateScore(){healthScore.textContent=calcScore()}function getRecords(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]")}catch(e){return[]}}function setRecords(r){localStorage.setItem(STORAGE_KEY,JSON.stringify(r))}
+function collect(){const record={id:Date.now(),date:date.value,time:time.value,healthScore:calcScore(),symptomTotal:symptomTotal(),symptoms:{}};symptoms.forEach((s,i)=>record.symptoms[s]=Number(document.getElementById("symptom"+i).value||0));ids.forEach(id=>record[id]=document.getElementById(id).value);return record}
+function saveRecord(){const records=getRecords();records.push(collect());records.sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));setRecords(records);renderHistory();drawChart("healthScore");alert("保存しました")}
+function clearForm(){if(!confirm("入力欄をクリアしますか？"))return;for(let i=0;i<symptoms.length;i++)document.getElementById("symptom"+i).value=0;ids.forEach(id=>document.getElementById(id).value="");rehab.value="";updateScore()}
+function renderHistory(){const records=getRecords().slice().reverse();historyBody.innerHTML=records.map(r=>`<tr><td>${r.date||""}<br>${r.time||""}</td><td>${r.healthScore}</td><td>${r.symptomTotal}</td><td>${r.bgAvg||""}</td><td>${r.sleepHours||""}</td><td>${(r.memo||"").slice(0,40)}</td></tr>`).join("")}
+function download(filename,content,type){const blob=new Blob([content],{type});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)}
+function exportCSV(){const records=getRecords();const cols=["date","time","healthScore","symptomTotal",...symptoms,"bgMorning","bgNoon","bgNight","tir","bgAvg","hypoCount","hba1c","sleepHours","sleepScore","restingHr","stress","steps","alcohol","rehab","memo"];const esc=v=>`"${String(v??"").replaceAll('"','""')}"`;const rows=[cols.join(",")];records.forEach(r=>rows.push(cols.map(c=>esc(symptoms.includes(c)?r.symptoms?.[c]:r[c])).join(",")));download("体調管理ノート_"+new Date().toISOString().slice(0,10)+".csv","\uFEFF"+rows.join("\n"),"text/csv;charset=utf-8")}
+function exportJSON(){download("体調管理ノート_backup_"+new Date().toISOString().slice(0,10)+".json",JSON.stringify(getRecords(),null,2),"application/json")}
+function importJSON(){jsonFile.click()}function handleImport(e){const f=e.target.files[0];if(!f)return;const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);if(!Array.isArray(data))throw new Error("形式エラー");setRecords(confirm("現在のデータに復元データを追加しますか？「キャンセル」で置き換えます。")?[...getRecords(),...data]:data);renderHistory();drawChart("healthScore");alert("復元しました")}catch(err){alert("JSONファイルを読み込めませんでした")}};reader.readAsText(f)}
+function openDrive(){window.open("https://drive.google.com/drive/my-drive","_blank")}function deleteAll(){if(confirm("全ての記録を削除します。元に戻せません。よろしいですか？")){localStorage.removeItem(STORAGE_KEY);renderHistory();drawChart("healthScore")}}
+function drawChart(key){const canvas=chart,ctx=canvas.getContext("2d");ctx.clearRect(0,0,canvas.width,canvas.height);const records=getRecords().slice(-30);ctx.fillStyle="#64748b";ctx.font="16px sans-serif";if(records.length===0){ctx.fillText("保存データがありません",20,40);return}const vals=records.map(r=>Number(r[key]||0));const max=Math.max(...vals,10),min=Math.min(...vals,0),pad=38,w=canvas.width-pad*2,h=canvas.height-pad*2;ctx.strokeStyle="#dbe4f0";ctx.lineWidth=1;for(let i=0;i<=4;i++){let y=pad+h*i/4;ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(pad+w,y);ctx.stroke()}ctx.strokeStyle="#1976d2";ctx.lineWidth=3;ctx.beginPath();vals.forEach((v,i)=>{const x=pad+(records.length===1?w/2:i*w/(records.length-1));const y=pad+h-(v-min)/(max-min||1)*h;if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();ctx.fillStyle="#1976d2";vals.forEach((v,i)=>{const x=pad+(records.length===1?w/2:i*w/(records.length-1));const y=pad+h-(v-min)/(max-min||1)*h;ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill()});ctx.fillStyle="#1f2937";ctx.font="14px sans-serif";const labels={healthScore:"体調指数",bgAvg:"平均血糖",sleepHours:"睡眠時間",stress:"ストレス"};ctx.fillText(labels[key]||key,pad,22);ctx.fillText("最新30件",canvas.width-100,22)}
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}))}init();
 </script>
-</body>
-</html>
+</body></html>
